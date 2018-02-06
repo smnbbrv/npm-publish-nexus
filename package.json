@@ -1,0 +1,31 @@
+{
+  "name": "npm-publish-nexus",
+  "version": "0.1.0",
+  "description": "Safe NPM package publish for Nexus",
+  "main": "publish.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "npm-publish-nexus": "./publish.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smnbbrv/npm-publish-nexus.git"
+  },
+  "keywords": [
+    "NPM",
+    "publish",
+    "Nexus"
+  ],
+  "author": "smnbbrv",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smnbbrv/npm-publish-nexus/issues"
+  },
+  "homepage": "https://github.com/smnbbrv/npm-publish-nexus#readme",
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "request": "^2.83.0"
+  }
+}
