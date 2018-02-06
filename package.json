@@ -1,6 +1,6 @@
 {
   "name": "npm-publish-nexus",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Safe NPM package publish for Nexus",
   "main": "publish.js",
   "scripts": {
