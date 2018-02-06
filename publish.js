@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const pkg = require(process.cwd() + '/package.json');
 const request = require('request');
 const assert = require('assert');

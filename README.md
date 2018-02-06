@@ -43,3 +43,7 @@ The following versions are found for package @bla/bla:
  - @bla/bla@1.0.5
 The current version is already deployed, skipping publishing...
 ```
+
+## License
+
+MIT
