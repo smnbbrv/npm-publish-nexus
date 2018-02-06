@@ -4,21 +4,37 @@ const pkg = require(process.cwd() + '/package.json');
 const request = require('request');
 const assert = require('assert');
 const spawn = require('child_process').spawnSync;
+const fs = require('fs');
 const path = require('path');
 const argv = require('minimist')(process.argv.slice(2));
 
-let { domain, repo, userconfig, envVariable } = argv;
+let { domain, repo, h, help } = argv;
 
-envVariable = envVariable || 'NPM_AUTH';
+if (h || help) {
+    console.log('\nExpects the following environment variables\n');
+    console.log('  NPM_NEXUS_PUBLISHER_EMAIL - should contain user email');
+    console.log('  NPM_NEXUS_PUBLISHER_AUTH - should contain "username:password" in base64');
+    console.log('\nAccepts the following arguments\n');
+    console.log('  --domain - the domain where nexus is hosted (e.g. https://example.com)');
+    console.log('  --repo - repo name to push to (e.g. npm-local)\n');
+
+    process.exit(0);
+}
+
+const userconfig = path.resolve('./.npmrc-publish-nexus');
+const envEmail = 'NPM_NEXUS_PUBLISHER_EMAIL';
+const envAuth = 'NPM_NEXUS_PUBLISHER_AUTH';
 
 const url = `${domain}/service/siesta/rest/beta/assets?repositoryId=${repo}`;
 const repoUrl = `${domain}/repository/${repo}/`;
-const credentials = process.env[envVariable];
+const email = process.env[envEmail];
+const auth = process.env[envAuth];
 
-assert(credentials, `Environment variable ${envVariable} is not set`);
+assert(email, `Environment variable ${envEmail} is not set`);
+assert(auth, `Environment variable ${envAuth} is not set`);
 
 request(
-    { url, headers: { 'Authorization': 'Basic ' + credentials } },
+    { url, headers: { 'Authorization': 'Basic ' + auth } },
     (error, response, body) => {
         if (error) {
             console.error(error);
@@ -67,6 +83,12 @@ request(
 );
 
 function publish() {
+    console.log(`Creating temporary .npmrc file at ${ userconfig }`);
+
+    fs.writeSync(userconfig, `email=${email}
+always-auth=true
+_auth=${auth}`, 'utf8');
+
     console.log(`Publishing ${pkg.name}@${pkg.version}...`);
 
     const exec = spawn('npm', [
@@ -74,6 +96,10 @@ function publish() {
         '--registry=' + repoUrl,
         'publish'
     ]);
+
+    console.log(`Removing temporary .npmrc file at ${ userconfig }`);
+
+    fs.unlinkSync(userconfig);
 
     if (exec.error || exec.status) {
         console.log(exec.stderr.toString());
