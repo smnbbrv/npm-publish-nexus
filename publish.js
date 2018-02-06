@@ -85,7 +85,7 @@ request(
 function publish() {
     console.log(`Creating temporary .npmrc file at ${ userconfig }`);
 
-    fs.writeSync(userconfig, `email=${email}
+    fs.writeFileSync(userconfig, `email=${email}
 always-auth=true
 _auth=${auth}`, 'utf8');
 
