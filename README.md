@@ -1,4 +1,4 @@
-# npm-publish-nexus
+# DEPRECATED npm-publish-nexus
 
 Safe NPM package publish for Nexus.
 
