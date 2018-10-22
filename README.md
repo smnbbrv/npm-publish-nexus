@@ -1,6 +1,8 @@
-# DEPRECATED npm-publish-nexus
+# npm-publish-nexus
 
 Safe NPM package publish for Nexus.
+
+> DEPRECATED: the *Disallow override* option is fixed now, so no need in this plugin anymore. Still, it works.
 
 ## Why
 
