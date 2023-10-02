@@ -90,8 +90,9 @@ always-auth=true
 _auth=${auth}`, 'utf8');
 
     console.log(`Publishing ${pkg.name}@${pkg.version}...`);
+    const npm = navigator.userAgent.includes('Windows') ? 'npm.cmd' : 'npm';
 
-    const exec = spawn('npm', [
+    const exec = spawn(npm, [
         '--userconfig=' + path.resolve(userconfig),
         '--registry=' + repoUrl,
         'publish'
